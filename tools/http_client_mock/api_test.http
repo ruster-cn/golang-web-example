@@ -1,0 +1,49 @@
+###
+POST http://localhost:8080/api/op/cluster/v1/meta/register
+Content-Type: application/json
+
+{
+  "name": "test-cluster2",
+  "region": "sgp",
+  "az": "zone-b",
+  "department": "spot",
+  "environment":"prod",
+  "kube_conf": "aaaabbbb",
+  "attribute": {
+    "group": "group1"
+  }
+}
+
+###
+PUT http://localhost:8080/api/op/cluster/v1/meta/update?id=5
+Content-Type: application/json
+
+{
+  "name": "test-cluster2",
+  "region": "sgp",
+  "az": "zone-A",
+  "department": "spot",
+  "environment":"dev",
+  "kube_conf": "bbbjijij",
+  "attribute": {
+    "group": "group1",
+    "host": "true"
+  }
+}
+
+###
+POST http://localhost:8080/api/op/cluster/v1/meta/find
+Content-Type: application/json
+
+{
+  "name": "test123",
+  "region": "",
+  "az": "",
+  "department": "",
+  "environment":""
+}
+
+###
+GET http://localhost:8080/api/op/cluster/v1/meta/list
+
+

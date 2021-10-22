@@ -1,0 +1,23 @@
+swagger: '2.0'
+info:
+  title: Paas Server API
+  description: These APIs provide services for manipulating Paas Server.
+  version: ''
+host: localhost
+schemes:
+  - http
+  - https
+basePath: /api/
+produces:
+  - application/json
+consumes:
+  - application/json
+securityDefinitions:
+  basic:
+    type: basic
+security:
+  - basic: []
+  - {}
+paths:
+
+definitions:

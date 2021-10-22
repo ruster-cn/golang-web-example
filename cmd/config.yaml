@@ -1,0 +1,25 @@
+paas_server:
+  graceful_time_out: 180s
+  addr: "0.0.0.0"
+  port: "8080"
+
+log:
+  level: "debug"
+  development: true
+  encoding: "text"
+  output_paths:
+  - "stdout"
+  error_output_paths:
+  - "stdout"
+
+orm:
+  user: "root"
+  password: "5h9M5*hk"
+  host: "127.0.0.1"
+  port: "3306"
+  db_name: "op_server"
+  time_out: 360s
+  max_idle_conns: 10
+  max_open_conns: 20
+  max_lifetime: 180s
+  log_mode: 4
