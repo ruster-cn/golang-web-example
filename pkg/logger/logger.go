@@ -45,8 +45,9 @@ func init() {
 }
 
 */
+var callerSkip = 1
 
-var logger, _ = zap.NewDevelopment()
+var logger, _ = zap.NewDevelopment(zap.AddCallerSkip(callerSkip))
 
 func NewLogger(config *LoggerConfiguration) error {
 	var err error
@@ -75,7 +76,7 @@ func NewLogger(config *LoggerConfiguration) error {
 		OutputPaths:      config.OutputPaths,
 		ErrorOutputPaths: config.ErrorOutputPaths,
 	}
-	logger, err = zapOpts.Build()
+	logger, err = zapOpts.Build(zap.AddCallerSkip(callerSkip))
 	if err != nil {
 		return fmt.Errorf("new logger fail,%v", err)
 	}
