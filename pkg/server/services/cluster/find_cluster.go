@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 
 	"github.com/op-server/pkg/server/handlers/cluster/v1/meta/paramtypes"
-
-	"github.com/op-server/pkg/logger"
 	"github.com/op-server/pkg/server/model"
+
+	log "github.com/ruster-cn/zap-log-wrapper"
 )
 
 func (service *ClusterService) FindCluster(param *paramtypes.ClusterMetaRequestParam) (paramtypes.ClusterMetasList, error) {
@@ -17,7 +17,7 @@ func (service *ClusterService) FindCluster(param *paramtypes.ClusterMetaRequestP
 		Department:  *param.Department,
 		Environment: *param.Environment,
 	}
-	logger.Infof("find cluster condition is:%v", param)
+	log.Infof("find cluster condition is:%v", param)
 	//list clusters by other conditions for excluding attributes
 	metas, err := service.dao.FindCluster(meta)
 	if err != nil {
@@ -33,7 +33,7 @@ func (service *ClusterService) FindCluster(param *paramtypes.ClusterMetaRequestP
 				if meta.Attribute != nil {
 					var attr map[string]string
 					if err := json.Unmarshal(meta.Attribute, &attr); err != nil {
-						logger.Warnf("unmarshal cluster %s attribute fail,%v", meta.Name, err)
+						log.Warnf("unmarshal cluster %s attribute fail,%v", meta.Name, err)
 						return
 					}
 					for k, v1 := range param.Attribute {
@@ -69,7 +69,7 @@ func modelClusterMeta2ClusterMetaRequestParam(data *model.ClusterMeta) paramtype
 		KubeConf:    data.KubeConf,
 	}
 	if err := json.Unmarshal(data.Attribute, &temp.Attribute); err != nil {
-		logger.Warnf("unmarshal cluster %s attribute fail,%v", data.Name, err)
+		log.Warnf("unmarshal cluster %s attribute fail,%v", data.Name, err)
 	}
 	return temp
 }

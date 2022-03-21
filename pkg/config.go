@@ -5,10 +5,8 @@ import (
 	"io/ioutil"
 
 	"github.com/op-server/pkg/server/config"
-
 	"github.com/op-server/pkg/server/orm"
-
-	"github.com/op-server/pkg/logger"
+	log "github.com/ruster-cn/zap-log-wrapper"
 	"gopkg.in/yaml.v2"
 )
 
@@ -19,7 +17,7 @@ type ConfigurationInterface interface {
 
 type Configuration struct {
 	PaasServer *config.HTTPServerConfiguration `yaml:"paas_server"`
-	Log        *logger.LoggerConfiguration     `yaml:"log"`
+	Log        *log.LoggerConfiguration        `yaml:"log"`
 	Orm        *orm.MysqlConnectConfiguration  `yaml:"orm"`
 }
 
@@ -32,7 +30,7 @@ func NewConfigurationFromFile(file string) (*Configuration, error) {
 	if err := config.PaasServer.Default().Validate(); err != nil {
 		return nil, fmt.Errorf("new paas server config fail,%v", err)
 	}
-	if err := config.Log.Default().Validate(); err != nil {
+	if err := config.Log.Validate(); err != nil {
 		return nil, fmt.Errorf("new log config fail,%v", err)
 	}
 	return config, nil

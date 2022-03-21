@@ -3,12 +3,10 @@ package app
 import (
 	"fmt"
 
-	"github.com/op-server/pkg/logger"
-
 	"github.com/op-server/pkg"
-	"k8s.io/sample-controller/pkg/signals"
-
+	log "github.com/ruster-cn/zap-log-wrapper"
 	"github.com/spf13/cobra"
+	"k8s.io/sample-controller/pkg/signals"
 )
 
 var configPath string
@@ -46,7 +44,7 @@ func setup() (*pkg.PaasServerMain, error) {
 		return nil, err
 	}
 
-	if err := logger.NewLogger(config.Log); err != nil {
+	if err := log.NewLogger(config.Log); err != nil {
 		return nil, fmt.Errorf("new logger fail,%v", err)
 	}
 

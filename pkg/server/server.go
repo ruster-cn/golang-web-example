@@ -6,14 +6,10 @@ import (
 	"net/http"
 
 	"github.com/op-server/pkg/server/config"
-
-	"github.com/op-server/pkg/server/globalrouter"
-
 	dao2 "github.com/op-server/pkg/server/dao"
-
+	"github.com/op-server/pkg/server/globalrouter"
 	"github.com/op-server/pkg/server/orm"
-
-	"github.com/op-server/pkg/logger"
+	log "github.com/ruster-cn/zap-log-wrapper"
 )
 
 type PaasHTTPServer struct {
@@ -41,7 +37,7 @@ func (server *PaasHTTPServer) Start(stopCh <-chan struct{}) error {
 	// it won't block the graceful shutdown handling below
 	go func() {
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			logger.Fatalf("listen: %s\n", err)
+			log.Fatalf("listen: %s\n", err)
 		}
 	}()
 
@@ -49,16 +45,16 @@ func (server *PaasHTTPServer) Start(stopCh <-chan struct{}) error {
 	<-stopCh
 
 	// Restore default behavior on the interrupt signal and notify user of shutdown.
-	logger.Info("shutting down gracefully, press Ctrl+C again to force")
+	log.Info("shutting down gracefully, press Ctrl+C again to force")
 
 	// The context is used to inform the server it has 5 seconds to finish
 	// the request it is currently handling
 	ctx, cancel := context.WithTimeout(context.Background(), server.httpServerConfiguration.GracefulTimeOut)
 	defer cancel()
 	if err := srv.Shutdown(ctx); err != nil {
-		logger.Fatalf("Server forced to shutdown: ", err)
+		log.Fatalf("Server forced to shutdown: ", err)
 	}
 
-	logger.Info("Server exiting")
+	log.Info("Server exiting")
 	return nil
 }

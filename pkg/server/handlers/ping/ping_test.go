@@ -6,9 +6,7 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-
-	"github.com/op-server/pkg/logger"
-
+	log "github.com/ruster-cn/zap-log-wrapper"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -27,19 +25,19 @@ func (suite *pingControllerTestSuit) SetupTest() {
 func (suite *pingControllerTestSuit) TestPingHandler() {
 	req, err := http.NewRequest("GET", "/api/op/v1/ping", nil)
 	if err != nil {
-		logger.Fatal(err.Error())
+		log.Fatal(err.Error())
 	}
 	rr := httptest.NewRecorder()
 	suite.router.ServeHTTP(rr, req)
 	if status := rr.Code; status != http.StatusOK {
-		logger.Errorf("handler returned wrong status code: got %v want %v",
+		log.Errorf("handler returned wrong status code: got %v want %v",
 			status, http.StatusOK)
 	}
 
 	// Check the response body is what we expect.
 	expected := "ok"
 	if rr.Body.String() != expected {
-		logger.Errorf("handler returned unexpected body: got %v want %v",
+		log.Errorf("handler returned unexpected body: got %v want %v",
 			rr.Body.String(), expected)
 	}
 }

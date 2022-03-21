@@ -2,11 +2,11 @@ package meta
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/op-server/pkg/logger"
 	"github.com/op-server/pkg/server/config"
 	"github.com/op-server/pkg/server/core/resp"
 	"github.com/op-server/pkg/server/dao"
 	"github.com/op-server/pkg/server/globalrouter/types"
+	log "github.com/ruster-cn/zap-log-wrapper"
 )
 
 func init() {
@@ -14,7 +14,7 @@ func init() {
 }
 
 func AddClusterHandlerRouterGroup(router *gin.RouterGroup, dao *dao.BaseDao, _ *config.HTTPServerConfiguration) {
-	logger.Info("add cluster handler router group")
+	log.Info("add cluster handler router group")
 	handler := NewClusterMetaHandler(dao)
 	v1Group := router.Group("/cluster/v1/meta")
 
